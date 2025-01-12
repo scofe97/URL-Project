@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16.2
+    container_name: url_shortener_db
+    environment:
+      POSTGRES_DB: url_shortener
+      POSTGRES_USER: url_admin
+      POSTGRES_PASSWORD: url1234
+
+      # 로깅 관련 환경변수
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+      POSTGRES_LOGGING_COLLECTOR: "on"
+      POSTGRES_LOG_DIRECTORY: "/var/lib/postgresql/log"
+      POSTGRES_LOG_FILENAME: "postgresql-%Y-%m-%d_%H%M%S.log"
+      POSTGRES_LOG_STATEMENT: "all"
+      POSTGRES_LOG_MIN_DURATION_STATEMENT: "1000"  # 1초 이상 걸리는 쿼리 로깅
+
+      POSTGRES_SHARED_PRELOAD_LIBRARIES: "auto_explain"
+
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+      - ./db-logs:/var/lib/postgresql/log  # 로그 볼륨
+      - ./init-logging.sql:/docker-entrypoint-initdb.d/init-logging.sql  # 초기 로깅 설정
+    networks:
+      - url_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U url_admin -d url_shortener"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  flyway-ui:
+    image: flyway/flyway:10.7.1
+    container_name: url_shortener_flyway
+    environment:
+      FLYWAY_URL: jdbc:postgresql://postgres:5432/url_shortener
+      FLYWAY_USER: url_admin
+      FLYWAY_PASSWORD: url1234
+      FLYWAY_LOCATIONS: filesystem:/flyway/sql
+    volumes:
+      - ./db-migration:/flyway/sql  # 마이그레이션 파일 마운트
+    networks:
+      - url_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+networks:
+  url_network:
+    driver: bridge

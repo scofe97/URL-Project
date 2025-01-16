@@ -34,9 +34,6 @@ subprojects {
 		implementation("org.springframework.boot:spring-boot-autoconfigure")
 		annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-		runtimeOnly 'org.postgresql:postgresql'
-		testImplementation 'com.h2database:h2'
-
 		// 테스트 의존성 추가
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	}

@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: bootstrap
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/url_shortener  # PostgreSQL ?? URL
+    username: url_admin                                # DB ??? ??
+    password: url1234                                  # DB ????
+    driver-class-name: org.postgresql.Driver           # PostgreSQL ????
+
+  jpa:
+    hibernate:
+      ddl-auto: update                                 # ??? ?? ?? ?? (??????? none ??)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect # PostgreSQL? ?? Hibernate Dialect
+        format_sql: true                                # SQL ??? ???
+        show_sql: true                                  # SQL ?? ???
+        use_sql_comments: true                          # SQL? ?? ??
+
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG                         # Hibernate SQL ?? ??
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE # SQL ???? ??? ??
+
+
+  flyway:
+    enabled: true                                    # Flyway ???
+    url: jdbc:postgresql://localhost:5432/url_shortener # PostgreSQL ?? URL
+    user: url_admin                                  # Flyway ???
+    password: url1234                                # Flyway ????
+    locations: classpath:db/migration                # ?????? ?? ?? (???)

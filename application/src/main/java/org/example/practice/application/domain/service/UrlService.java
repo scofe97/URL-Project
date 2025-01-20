@@ -33,7 +33,7 @@ public class UrlService implements UrlUseCase {
 
         urlRepositoryPort.save( Url.builder()
                 .originalUrl(originalUrl)
-                .shortened_url(shortKey)
+                .shortenedUrl(shortKey)
                 .createdAt(LocalDateTime.now())
                 .build());
 

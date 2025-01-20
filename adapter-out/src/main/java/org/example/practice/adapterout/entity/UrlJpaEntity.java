@@ -32,7 +32,7 @@ public class UrlJpaEntity {
     // 엔터티 → 도메인 변환
     public Url toDomain() {
         return Url.builder()
-                .shortened_url(shortenedUrl)
+                .shortenedUrl(shortenedUrl)
                 .originalUrl(originalUrl)
                 .createdAt(createdAt)
                 .clickCount(clickCount)
@@ -42,7 +42,7 @@ public class UrlJpaEntity {
     // 도메인 → 엔터티 변환
     public static UrlJpaEntity fromDomain(Url domain) {
         UrlJpaEntity entity = new UrlJpaEntity();
-        entity.shortenedUrl = domain.getShortened_url();
+        entity.shortenedUrl = domain.getShortenedUrl();
         entity.originalUrl = domain.getOriginalUrl();
         entity.createdAt = domain.getCreatedAt();
         entity.clickCount = domain.getClickCount();

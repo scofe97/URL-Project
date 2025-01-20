@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 public class Url {
-    private final String shortened_url;
+    private final String shortenedUrl;
     private final String originalUrl;
     private final LocalDateTime createdAt;
     private int clickCount;
 
     @Builder
-    public Url(String shortened_url, String originalUrl, LocalDateTime createdAt, int clickCount) {
-        this.shortened_url = shortened_url;
+    public Url(String shortenedUrl, String originalUrl, LocalDateTime createdAt, int clickCount) {
+        this.shortenedUrl = shortenedUrl;
         this.originalUrl = originalUrl;
         this.createdAt = createdAt;
         this.clickCount = clickCount;

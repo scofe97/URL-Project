@@ -9,12 +9,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,11 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(UrlController.class)
 @ContextConfiguration(classes = {UrlControllerTest.MockTestConfig.class})
-@ImportAutoConfiguration(exclude = {
-        WebMvcAutoConfiguration.class,
-        CacheAutoConfiguration.class,
-        ErrorMvcAutoConfiguration.class
-})
 class UrlControllerTest {
 
     @Autowired
@@ -92,6 +84,7 @@ class UrlControllerTest {
     }
 
     @Configuration
+    @ComponentScan(basePackages = "org.example.practice.adapterin")
     static class MockTestConfig {
         @Bean
         public UrlUseCase urlUseCase() {

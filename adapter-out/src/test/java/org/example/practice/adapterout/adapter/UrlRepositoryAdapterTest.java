@@ -4,6 +4,7 @@ import org.example.practice.adapterout.config.TestJpaConfig;
 import org.example.practice.adapterout.entity.UrlJpaEntity;
 import org.example.practice.adapterout.repository.UrlRepository;
 import org.example.practice.application.domain.model.Url;
+import org.example.practice.application.port.out.UrlRepositoryPort;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UrlRepositoryAdapterTest {
 
     @Autowired
-    private UrlRepositoryAdapter urlRepositoryAdapter;
+    private UrlRepositoryPort urlRepositoryPort;
 
     @Autowired
     private UrlRepository urlRepository;
@@ -35,7 +36,7 @@ class UrlRepositoryAdapterTest {
                 .clickCount(0)
                 .build();
 
-        urlRepositoryAdapter.save(url);
+        urlRepositoryPort.save(url);
 
         Optional<UrlJpaEntity> foundEntity = urlRepository.findByShortenedUrl("short1");
         assertThat(foundEntity.isPresent()).isTrue();
@@ -51,10 +52,10 @@ class UrlRepositoryAdapterTest {
                 .createdAt(LocalDateTime.now())
                 .clickCount(0)
                 .build();
-        urlRepositoryAdapter.save(url);
+        urlRepositoryPort.save(url);
 
-        boolean exists = urlRepositoryAdapter.existsByShortenedUrl("short1");
-        boolean notExists = urlRepositoryAdapter.existsByShortenedUrl("short2");
+        boolean exists = urlRepositoryPort.existsByShortenedUrl("short1");
+        boolean notExists = urlRepositoryPort.existsByShortenedUrl("short2");
 
         assertThat(exists).isTrue();
         assertThat(notExists).isFalse();
@@ -68,11 +69,11 @@ class UrlRepositoryAdapterTest {
                 .createdAt(LocalDateTime.now())
                 .clickCount(0)
                 .build();
-        urlRepositoryAdapter.save(url);
+        urlRepositoryPort.save(url);
 
         // when
-        Optional<Url> found = urlRepositoryAdapter.findByShortenedUrl("short1");
-        Optional<Url> notFound = urlRepositoryAdapter.findByShortenedUrl("short2");
+        Optional<Url> found = urlRepositoryPort.findByShortenedUrl("short1");
+        Optional<Url> notFound = urlRepositoryPort.findByShortenedUrl("short2");
 
         // then
         assertThat(found).isPresent();
